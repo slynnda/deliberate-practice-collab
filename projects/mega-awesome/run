@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+  set -o errexit
+  set -o pipefail
+  set -o nounset
+# set -o xtrace
+
+function docker.stop.all () {
+  test ! $(docker ps -a -q | wc -l) -gt 0 || docker stop $(docker ps -a -q)
+}
+
+function docker.rm.all () {
+  test ! $(docker ps -a -q | wc -l) -gt 0 || docker rm -f $(docker ps -a -q)
+}
+
+function docker.rmi.all () {
+  test ! $(docker images -q | wc -l) -gt 0 || docker rmi -f $(docker images -q)
+}
+
+cmd=${1}
+
+$(cmd)
